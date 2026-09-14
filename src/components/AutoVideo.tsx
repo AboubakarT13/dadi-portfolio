@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useMediaSrc } from "@/hooks/useMediaSrc";
 
 export interface AutoVideoProps {
   src: string;
