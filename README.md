@@ -1,4 +1,4 @@
-# Remix of Dadi's Creative Hub
+# Dadi's Creative Hub
 
 Crée un site portfolio one-page pour "Tohoury Dadi Elie", Conducteur de Travaux & Dessinateur Bâtiment à Abidjan, Côte d'Ivoire, AVEC :
 1. Un espace administrateur caché (accessible via le mot "DADI" dans le footer)
