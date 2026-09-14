@@ -166,6 +166,7 @@ function AdminPage() {
               className={btnGhost}
               onClick={() => {
                 window.sessionStorage.removeItem(SESSION_KEY);
+                window.localStorage.removeItem(SESSION_KEY);
                 setAuthed(false);
               }}
             >
