@@ -1,7 +1,11 @@
-import villaBasse from "@/assets/proj-villa-basse.jpg";
-import duplex from "@/assets/proj-duplex.jpg";
-import immeuble from "@/assets/proj-immeuble.jpg";
-import temple from "@/assets/proj-temple.jpg";
+import {
+  PROJET_1,
+  PROJET_2,
+  PROJET_3,
+  PROJET_4,
+  PROJET_5,
+  PROJET_6,
+} from "@/lib/project-images";
 
 export interface Project {
   id: string;
