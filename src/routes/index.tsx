@@ -62,7 +62,7 @@ function Header() {
       <div className="wrap flex h-[68px] items-center justify-between">
         <a
           href="#top"
-          className="display text-[1.35rem] font-800 tracking-[0.04em] uppercase"
+          className="display text-[1.35rem] tracking-[0.04em] uppercase"
           style={{ fontWeight: 800 }}
         >
           TOHOURY <span className="text-gold">DADI ELIE</span>
