@@ -107,8 +107,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Conception architecturale 2D/3D d'une villa basse 3 pièces, plans techniques et suivi d'exécution jusqu'aux finitions.",
     status: "Livré",
-    photoCount: 12,
-    images: [villaBasse],
+    photoCount: PROJET_1.length,
+    images: PROJET_1,
     videos: [],
   },
   {
@@ -119,8 +119,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Plans architecturaux et de coffrage d'une villa duplex, métré et devis quantitatif/estimatif complet.",
     status: "Livré",
-    photoCount: 18,
-    images: [duplex],
+    photoCount: PROJET_2.length,
+    images: PROJET_2,
     videos: [],
   },
   {
@@ -131,8 +131,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Étude d'un ensemble comprenant une villa duplex et un immeuble R+4 : conception 3D, structure et coffrage.",
     status: "En cours",
-    photoCount: 5,
-    images: [immeuble],
+    photoCount: PROJET_3.length,
+    images: PROJET_3,
     videos: [],
   },
   {
@@ -143,8 +143,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Suivi de travaux d'un immeuble R+3 avec commerces en rez-de-chaussée, gros œuvre et second œuvre.",
     status: "En cours",
-    photoCount: 5,
-    images: [immeuble],
+    photoCount: PROJET_4.length,
+    images: PROJET_4,
     videos: [],
   },
   {
@@ -155,8 +155,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Conception architecturale du temple El-Shaddaï, plans de structure, métré et devis estimatif.",
     status: "Livré",
-    photoCount: 8,
-    images: [temple],
+    photoCount: PROJET_5.length,
+    images: PROJET_5,
     videos: [],
   },
   {
@@ -167,8 +167,8 @@ export const DEFAULT_PROJECTS: Project[] = [
     description:
       "Villa duplex 3 chambres avec magasins en façade : plans 2D/3D, coffrage, électricité et assainissement.",
     status: "Livré",
-    photoCount: 4,
-    images: [duplex],
+    photoCount: PROJET_6.length,
+    images: PROJET_6,
     videos: [],
   },
 ];
