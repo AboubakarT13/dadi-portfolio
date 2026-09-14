@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import heroPortrait from "@/assets/hero-portrait.jpg";
 import profilePortrait from "@/assets/profile-portrait.jpg";
 import { AutoVideo } from "@/components/AutoVideo";
+import { MediaImage } from "@/components/MediaImage";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import { CONTACT, EXPERIENCES, FORMATION, METHODE } from "@/lib/portfolio-data";
 
@@ -369,7 +370,7 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
                       onClick={() => onOpen({ images: p.images, index: i })}
                       className="group aspect-[4/3] overflow-hidden border border-line"
                     >
-                      <img
+                      <MediaImage
                         src={img}
                         alt={`${p.title} — visuel ${i + 1}`}
                         loading="lazy"
@@ -456,7 +457,7 @@ function Lightbox({
       >
         ‹
       </button>
-      <img
+      <MediaImage
         src={images[index]}
         alt={`Visuel ${index + 1}`}
         className="max-h-[85vh] max-w-[90vw] object-contain"
