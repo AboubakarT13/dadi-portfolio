@@ -304,41 +304,75 @@ function AdminPage() {
                   />
                 </label>
 
-                <label className="mt-4 block">
-                  <span className="section-label">Images (une URL par ligne)</span>
-                  <textarea
-                    rows={3}
-                    className={`${input} mt-1`}
-                    value={p.images.join("\n")}
-                    onChange={(e) =>
-                      setProject(i, {
-                        images: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                      })
-                    }
-                  />
-                </label>
-
-                <label className="mt-4 block">
-                  <span className="section-label">Vidéos (une URL par ligne — autoplay)</span>
-                  <textarea
-                    rows={2}
-                    className={`${input} mt-1`}
-                    value={p.videos.join("\n")}
-                    onChange={(e) =>
-                      setProject(i, {
-                        videos: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                      })
-                    }
-                  />
-                </label>
-
-                {p.videos.length > 0 && (
-                  <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                    {p.videos.map((v, vi) => (
-                      <AutoVideo key={vi} src={v} className="gold-frame aspect-video w-full" />
-                    ))}
+                <div className="mt-5">
+                  <span className="section-label">Photos du projet</span>
+                  <div className="mt-2">
+                    <MediaDrop
+                      accept="image/*"
+                      label="Glissez vos photos ici ou cliquez pour les choisir sur l'appareil"
+                      onFiles={(refs) => {
+                        const images = [...p.images, ...refs];
+                        setProject(i, { images, photoCount: images.length });
+                      }}
+                    />
                   </div>
-                )}
+                  {p.images.length > 0 && (
+                    <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                      {p.images.map((img, ii) => (
+                        <div key={`${p.id}-img-${ii}`} className="relative aspect-[4/3] border border-line">
+                          <MediaImage
+                            src={img}
+                            alt=""
+                            className="h-full w-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            aria-label="Retirer la photo"
+                            onClick={() => {
+                              const images = p.images.filter((_, x) => x !== ii);
+                              setProject(i, { images, photoCount: images.length });
+                            }}
+                            className="absolute right-1 top-1 h-6 w-6 text-xs text-gold"
+                            style={{ background: "rgba(0,0,0,0.6)" }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-5">
+                  <span className="section-label">Vidéos du projet (autoplay)</span>
+                  <div className="mt-2">
+                    <MediaDrop
+                      accept="video/*"
+                      label="Glissez vos vidéos ici ou cliquez pour les choisir sur l'appareil"
+                      onFiles={(refs) => setProject(i, { videos: [...p.videos, ...refs] })}
+                    />
+                  </div>
+                  {p.videos.length > 0 && (
+                    <div className="mt-3 grid gap-4 sm:grid-cols-2">
+                      {p.videos.map((v, vi) => (
+                        <div key={`${p.id}-v-${vi}`} className="relative">
+                          <AutoVideo src={v} className="gold-frame aspect-video w-full" />
+                          <button
+                            type="button"
+                            aria-label="Retirer la vidéo"
+                            onClick={() =>
+                              setProject(i, { videos: p.videos.filter((_, x) => x !== vi) })
+                            }
+                            className="absolute right-2 top-2 h-7 w-7 text-sm text-gold"
+                            style={{ background: "rgba(0,0,0,0.6)" }}
+                          >
+                            ×
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
 
                 <div className="mt-5 flex justify-end">
                   <button
