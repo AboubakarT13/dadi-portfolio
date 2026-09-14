@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 
 import { AutoVideo } from "@/components/AutoVideo";
+import { MediaDrop } from "@/components/MediaDrop";
+import { MediaImage } from "@/components/MediaImage";
 import {
   DEFAULT_PROJECTS,
   loadContent,
@@ -200,6 +202,14 @@ function AdminPage() {
             >
               Enregistrer
             </button>
+          </div>
+          <div className="mt-4">
+            <MediaDrop
+              accept="video/*"
+              multiple={false}
+              label="Glissez une vidéo ici ou cliquez pour choisir un fichier de l'appareil"
+              onFiles={(refs) => update({ ...content, presentationVideo: refs[0] ?? null })}
+            />
           </div>
           {content.presentationVideo && (
             <AutoVideo
