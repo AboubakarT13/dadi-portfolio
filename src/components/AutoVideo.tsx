@@ -20,6 +20,8 @@ export function AutoVideo({
 }: AutoVideoProps) {
   const ref = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+  const resolvedSrc = useMediaSrc(src);
+  const resolvedPoster = useMediaSrc(poster ?? "");
 
   useEffect(() => {
     const el = ref.current;
@@ -65,8 +67,8 @@ export function AutoVideo({
     <div className={`relative overflow-hidden bg-panel-2 ${className}`}>
       <video
         ref={ref}
-        src={src}
-        poster={poster}
+        src={resolvedSrc}
+        poster={resolvedPoster || undefined}
         autoPlay
         muted
         loop
