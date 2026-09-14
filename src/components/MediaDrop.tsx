@@ -18,7 +18,7 @@ export function MediaDrop({ accept, label, multiple = true, onFiles }: MediaDrop
     if (!list || list.length === 0) return;
     setBusy(true);
     try {
-      const kind = accept.split("/")[0];
+      const kind = accept.startsWith("image") ? "image" : "video";
       const files = Array.from(list).filter((f) => f.type.startsWith(kind));
       const refs: string[] = [];
       for (const f of files) refs.push(await saveFile(f));
