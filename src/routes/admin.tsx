@@ -49,14 +49,26 @@ function emptyProject(): Project {
 
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
+  const [ready, setReady] = useState(false);
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
   const [content, setContent] = useState<SiteContent | null>(null);
   const [saved, setSaved] = useState(false);
+  const passRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (window.sessionStorage.getItem(SESSION_KEY) === "ok") setAuthed(true);
+    try {
+      if (
+        window.sessionStorage.getItem(SESSION_KEY) === "ok" ||
+        window.localStorage.getItem(SESSION_KEY) === "ok"
+      ) {
+        setAuthed(true);
+      }
+    } catch {
+      /* stockage indisponible */
+    }
     setContent(loadContent());
+    setReady(true);
   }, []);
 
   const update = (next: SiteContent) => {
@@ -66,19 +78,29 @@ function AdminPage() {
     window.setTimeout(() => setSaved(false), 1600);
   };
 
+  const tryLogin = () => {
+    const value = (passRef.current?.value ?? pass).trim();
+    if (value.toUpperCase() === PASSWORD) {
+      try {
+        window.sessionStorage.setItem(SESSION_KEY, "ok");
+        window.localStorage.setItem(SESSION_KEY, "ok");
+      } catch {
+        /* stockage indisponible */
+      }
+      setAuthed(true);
+      setError("");
+    } else {
+      setError("Mot de passe incorrect.");
+    }
+  };
+
   if (!authed) {
     return (
       <div className="flex min-h-screen items-center justify-center px-6">
         <form
           onSubmit={(e) => {
             e.preventDefault();
-            if (pass === PASSWORD) {
-              window.sessionStorage.setItem(SESSION_KEY, "ok");
-              setAuthed(true);
-              setError("");
-            } else {
-              setError("Mot de passe incorrect.");
-            }
+            tryLogin();
           }}
           className="gold-frame w-full max-w-sm bg-panel p-8"
         >
@@ -87,7 +109,9 @@ function AdminPage() {
             Espace administrateur
           </h1>
           <input
+            ref={passRef}
             type="password"
+            name="password"
             value={pass}
             onChange={(e) => setPass(e.target.value)}
             placeholder="Mot de passe"
@@ -95,7 +119,14 @@ function AdminPage() {
             autoFocus
           />
           {error && <p className="mt-2 text-sm text-gold">{error}</p>}
-          <button type="submit" className={`${btn} mt-5 w-full`}>
+          <button
+            type="submit"
+            className={`${btn} mt-5 w-full`}
+            onClick={(e) => {
+              e.preventDefault();
+              tryLogin();
+            }}
+          >
             Entrer
           </button>
           <Link to="/" className="mt-4 block text-center text-xs text-faint hover:text-gold">
@@ -105,6 +136,8 @@ function AdminPage() {
       </div>
     );
   }
+
+  if (!ready) return null;
 
   if (!content) return null;
 
