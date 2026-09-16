@@ -296,9 +296,10 @@ function Experience() {
   return (
     <section id="experience" className="border-t border-line bg-panel py-24">
       <div className="wrap">
-        <SectionLabel>Expérience</SectionLabel>
+        <SectionLabel>Parcours</SectionLabel>
         <h2 className="mt-6 text-4xl uppercase" style={{ fontWeight: 700 }}>
-          Parcours professionnel
+          Expérience professionnelle
+
         </h2>
 
         <div className="mt-12 border-l border-line pl-7">
