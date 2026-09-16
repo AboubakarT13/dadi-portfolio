@@ -113,11 +113,11 @@ export const DEFAULT_PROJECTS: Project[] = [
   },
   {
     id: "villa-duplex-anoh",
-    title: "Villa Duplex Mr. Anoh",
-    tag: "Dessin technique",
-    meta: "Abidjan · Habitation · 2024",
+    title: "Villa Duplex — Résidence Mr. Anoh",
+    tag: "En cours",
+    meta: "DKM Construction — Paris Village, Abobo (lot 344, îlot 51, quartier Djibi)",
     description:
-      "Plans architecturaux et de coffrage d'une villa duplex, métré et devis quantitatif/estimatif complet.",
+      "Le client est venu avec des plans en 2D. Sur cette base, conception complète des plans 3D, des plans de structure et de tous les plans d'exécution (coffrage, électricité/assainissement). Programme : RDC avec garage 2 voitures, salon, salle à manger, cuisine, chambre visiteur ; étage avec 4 chambres et une salle de sport.",
     status: "Livré",
     photoCount: PROJET_2.length,
     images: PROJET_2,
@@ -125,11 +125,11 @@ export const DEFAULT_PROJECTS: Project[] = [
   },
   {
     id: "villa-duplex-r4",
-    title: "Villa duplex + R+4",
+    title: "Villa duplex + immeuble locatif R+4",
     tag: "Conception 3D",
-    meta: "Abidjan · Mixte · 2024",
+    meta: "Conception uniquement — Cocody Angré, quartier Djorobité — Terrain 19 m x 35 m",
     description:
-      "Étude d'un ensemble comprenant une villa duplex et un immeuble R+4 : conception 3D, structure et coffrage.",
+      "Cliente propriétaire d'un terrain souhaitant une villa duplex pour elle-même ainsi qu'un immeuble locatif R+4 sur la même parcelle. Mission limitée à la conception : plans 2D, rendus 3D des deux bâtiments, afin de donner à la cliente une première idée concrète de son projet.",
     status: "En cours",
     photoCount: PROJET_3.length,
     images: PROJET_3,
@@ -137,11 +137,11 @@ export const DEFAULT_PROJECTS: Project[] = [
   },
   {
     id: "immeuble-r3-commerces",
-    title: "Immeuble R+3 commerces",
-    tag: "Suivi de chantier",
-    meta: "Abidjan · Commercial · 2025",
+    title: "Immeuble R+3 avec commerces",
+    tag: "Conception 3D",
+    meta: "Conception uniquement — Abgoville — Terrain 15 m x 20 m",
     description:
-      "Suivi de travaux d'un immeuble R+3 avec commerces en rez-de-chaussée, gros œuvre et second œuvre.",
+      "Client souhaitant une proposition d'aménagement pour son terrain avant présentation à un architecte. Programme proposé : RDC avec parking et 4 magasins/boutiques ; aux étages, un motif répété (appartement 2 chambres + salon, et 2 studios).",
     status: "En cours",
     photoCount: PROJET_4.length,
     images: PROJET_4,
@@ -150,10 +150,10 @@ export const DEFAULT_PROJECTS: Project[] = [
   {
     id: "temple-el-shaddai",
     title: "Temple El-Shaddaï Divo",
-    tag: "Conception & métré",
-    meta: "Divo · Édifice cultuel · 2023",
+    tag: "Conception 3D",
+    meta: "Église Évangélique des Assemblées de Dieu — Côte d'Ivoire — Divo — Terrain 20 m x 30 m (600 m²)",
     description:
-      "Conception architecturale du temple El-Shaddaï, plans de structure, métré et devis estimatif.",
+      "Conception d'un temple en mezzanine d'une capacité de 500 places, avec un bâtiment annexe (toilettes, salles pour l'école du dimanche, bureaux, boutique) réalisé en R+1 — fondations prévues pour un R+2 futur. Devis quantitatif/estimatif complet réalisé avec l'appui d'un ingénieur pour l'étude de structure.",
     status: "Livré",
     photoCount: PROJET_5.length,
     images: PROJET_5,
@@ -161,11 +161,11 @@ export const DEFAULT_PROJECTS: Project[] = [
   },
   {
     id: "villa-duplex-magasins",
-    title: "Villa duplex 3 chambres + magasins",
-    tag: "Plans techniques",
-    meta: "Abidjan · Mixte · 2023",
+    title: "Villa duplex 3 chambres + espace magasins",
+    tag: "Conception 3D",
+    meta: "Conception uniquement — Terrain 20 m x 20 m",
     description:
-      "Villa duplex 3 chambres avec magasins en façade : plans 2D/3D, coffrage, électricité et assainissement.",
+      "Cliente disposant d'un terrain de 20 m x 20 m, souhaitant réserver 15 m x 20 m pour sa propre villa duplex et une bande de 5 m en façade pour des magasins à découper ultérieurement. Programme : RDC avec hall, salon, salle à manger, cuisine, 2 chambres et espace magasins en façade ; étage avec la chambre principale.",
     status: "Livré",
     photoCount: PROJET_6.length,
     images: PROJET_6,
