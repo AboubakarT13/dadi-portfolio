@@ -156,30 +156,38 @@ function Hero() {
             className="fade-up mt-5 max-w-xl text-dim"
             style={{ animationDelay: "340ms" }}
           >
-            Du terrain au plan, du plan à la livraison : conception 2D/3D, plans techniques,
-            métré, devis et suivi de chantier menés avec rigueur.
+            De la visite de terrain à la livraison du chantier : conception 2D/3D, devis
+            quantitatifs et suivi de gros œuvre / second œuvre en Côte d'Ivoire.
           </p>
-          <p
-            className="fade-up mt-8 text-sm text-faint"
+          <div
+            className="fade-up mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-faint"
             style={{ animationDelay: "420ms" }}
           >
-            Abidjan · DKM Construction · ArchiCAD · AutoCAD · Revit · Twinmotion
-          </p>
+            <span>Abidjan, Côte d'Ivoire</span>
+            <span>DKM Construction</span>
+            <span>ArchiCAD · AutoCAD · Revit · Twinmotion</span>
+          </div>
         </div>
 
-        <div
-          className="gold-frame fade-up mx-auto w-full max-w-sm"
+        <figure
+          className="fade-up mx-auto w-full max-w-sm"
           style={{ animationDelay: "500ms" }}
         >
-          <img
-            src={heroPortrait}
-            alt="Tohoury Dadi Elie sur un chantier à Abidjan"
-            width={1024}
-            height={1280}
-            className="aspect-[4/5] w-full object-cover"
-            style={{ filter: "grayscale(35%)" }}
-          />
-        </div>
+          <div className="gold-frame">
+            <img
+              src={heroPortrait}
+              alt="Tohoury Dadi Elie sur un chantier, casque de sécurité"
+              width={1024}
+              height={1280}
+              className="aspect-[4/5] w-full object-cover"
+              style={{ filter: "grayscale(35%)" }}
+            />
+          </div>
+          <figcaption className="mt-3 text-sm text-faint">
+            Sur chantier — suivi de travaux
+          </figcaption>
+        </figure>
+
       </div>
 
       <div className="absolute bottom-6 left-0 w-full">
@@ -196,7 +204,7 @@ function Profil({ presentationVideo }: { presentationVideo: string | null }) {
   return (
     <section id="profil" className="border-t border-line py-24">
       <div className="wrap">
-        <SectionLabel>Profil</SectionLabel>
+        <SectionLabel>À propos</SectionLabel>
         <div className="mt-10 grid gap-12 lg:grid-cols-[260px_1fr]">
           <div className="gold-frame h-fit">
             <img
@@ -212,8 +220,18 @@ function Profil({ presentationVideo }: { presentationVideo: string | null }) {
 
           <div>
             <h2 className="text-4xl uppercase" style={{ fontWeight: 700 }}>
-              Méthode de travail
+              Profil
             </h2>
+            <p className="mt-3 text-gold">Conducteur de Travaux &amp; Dessinateur Bâtiment</p>
+            <p className="mt-4 max-w-3xl text-dim">
+              Conducteur de travaux et dessinateur en bâtiment, expérimenté dans la conception
+              (plans 2D/3D, structure, coffrage) et le suivi de chantier en gros œuvre et second
+              œuvre. Intervient de la conception à l'exécution, avec un souci constant de
+              conformité entre le terrain, les plans et l'ouvrage livré.
+            </p>
+
+            <p className="section-label mt-10">Méthode de travail</p>
+
             <ol className="mt-8 space-y-6">
               {METHODE.map((step, i) => (
                 <li key={i} className="flex gap-5 border-b border-line-soft pb-6 last:border-0">
@@ -278,9 +296,10 @@ function Experience() {
   return (
     <section id="experience" className="border-t border-line bg-panel py-24">
       <div className="wrap">
-        <SectionLabel>Expérience</SectionLabel>
+        <SectionLabel>Parcours</SectionLabel>
         <h2 className="mt-6 text-4xl uppercase" style={{ fontWeight: 700 }}>
-          Parcours professionnel
+          Expérience professionnelle
+
         </h2>
 
         <div className="mt-12 border-l border-line pl-7">
@@ -340,12 +359,17 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
   return (
     <section id="projets" className="border-t border-line py-24">
       <div className="wrap">
-        <SectionLabel>Projets</SectionLabel>
+        <SectionLabel>Réalisations</SectionLabel>
         <h2 className="mt-6 text-4xl uppercase" style={{ fontWeight: 700 }}>
-          Réalisations
+          Projets
         </h2>
+        <p className="mt-4 max-w-3xl text-dim">
+          Une sélection de projets de conception et de suivi de chantier, du premier trait de
+          crayon jusqu'au gros œuvre. Cliquez sur une photo pour l'agrandir.
+        </p>
 
         <div className="mt-12">
+
           {projects.map((p) => (
             <article key={p.id} className="border-t border-line py-12 first:border-0 first:pt-0">
               <div className="flex flex-wrap items-center justify-between gap-4">
@@ -470,6 +494,10 @@ function Lightbox({
       >
         ›
       </button>
+      <div className="absolute bottom-6 section-label">
+        {index + 1} / {images.length}
+      </div>
+
     </div>
   );
 }
