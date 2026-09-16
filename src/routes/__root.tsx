@@ -84,6 +84,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Portfolio de Tohoury Dadi Elie, conducteur de travaux et dessinateur bâtiment à Abidjan.",
       },
       { name: "author", content: "Tohoury Dadi Elie" },
+      {
+        name: "google-site-verification",
+        content: "tSC8JQuM4KWDEZ5JTr1LVmZjUvgjU-iqcAmBR4OOH8w",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
