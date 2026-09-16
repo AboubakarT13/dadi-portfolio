@@ -204,7 +204,7 @@ function Profil({ presentationVideo }: { presentationVideo: string | null }) {
   return (
     <section id="profil" className="border-t border-line py-24">
       <div className="wrap">
-        <SectionLabel>Profil</SectionLabel>
+        <SectionLabel>À propos</SectionLabel>
         <div className="mt-10 grid gap-12 lg:grid-cols-[260px_1fr]">
           <div className="gold-frame h-fit">
             <img
@@ -220,8 +220,18 @@ function Profil({ presentationVideo }: { presentationVideo: string | null }) {
 
           <div>
             <h2 className="text-4xl uppercase" style={{ fontWeight: 700 }}>
-              Méthode de travail
+              Profil
             </h2>
+            <p className="mt-3 text-gold">Conducteur de Travaux &amp; Dessinateur Bâtiment</p>
+            <p className="mt-4 max-w-3xl text-dim">
+              Conducteur de travaux et dessinateur en bâtiment, expérimenté dans la conception
+              (plans 2D/3D, structure, coffrage) et le suivi de chantier en gros œuvre et second
+              œuvre. Intervient de la conception à l'exécution, avec un souci constant de
+              conformité entre le terrain, les plans et l'ouvrage livré.
+            </p>
+
+            <p className="section-label mt-10">Méthode de travail</p>
+
             <ol className="mt-8 space-y-6">
               {METHODE.map((step, i) => (
                 <li key={i} className="flex gap-5 border-b border-line-soft pb-6 last:border-0">
