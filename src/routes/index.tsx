@@ -494,6 +494,10 @@ function Lightbox({
       >
         ›
       </button>
+      <div className="absolute bottom-6 section-label">
+        {index + 1} / {images.length}
+      </div>
+
     </div>
   );
 }
