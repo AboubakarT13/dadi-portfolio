@@ -101,11 +101,11 @@ export const FORMATION = [
 export const DEFAULT_PROJECTS: Project[] = [
   {
     id: "villa-basse-3p",
-    title: "Villa basse 3 pièces",
-    tag: "Conception & suivi",
-    meta: "Abidjan · Habitation · 2024",
+    title: "Villa basse 3 pièces + logement indépendant",
+    tag: "Réalisé",
+    meta: "DKM Construction — Bouaké, Cité CDCI (Terminus du bus) — Terrain 600 m²",
     description:
-      "Conception architecturale 2D/3D d'une villa basse 3 pièces, plans techniques et suivi d'exécution jusqu'aux finitions.",
+      "Premier projet réalisé chez DKM Construction. Le client souhaitait une villa basse principale de 3 pièces, complétée par un logement indépendant sur le même terrain. Rôle : dessinateur — conception de l'ensemble des plans, réalisation du devis, implantation du bâtiment, puis suivi de conformité de l'avancement des travaux avec les plans.",
     status: "Livré",
     photoCount: PROJET_1.length,
     images: PROJET_1,
