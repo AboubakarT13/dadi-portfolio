@@ -156,30 +156,38 @@ function Hero() {
             className="fade-up mt-5 max-w-xl text-dim"
             style={{ animationDelay: "340ms" }}
           >
-            Du terrain au plan, du plan à la livraison : conception 2D/3D, plans techniques,
-            métré, devis et suivi de chantier menés avec rigueur.
+            De la visite de terrain à la livraison du chantier : conception 2D/3D, devis
+            quantitatifs et suivi de gros œuvre / second œuvre en Côte d'Ivoire.
           </p>
-          <p
-            className="fade-up mt-8 text-sm text-faint"
+          <div
+            className="fade-up mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-faint"
             style={{ animationDelay: "420ms" }}
           >
-            Abidjan · DKM Construction · ArchiCAD · AutoCAD · Revit · Twinmotion
-          </p>
+            <span>Abidjan, Côte d'Ivoire</span>
+            <span>DKM Construction</span>
+            <span>ArchiCAD · AutoCAD · Revit · Twinmotion</span>
+          </div>
         </div>
 
-        <div
-          className="gold-frame fade-up mx-auto w-full max-w-sm"
+        <figure
+          className="fade-up mx-auto w-full max-w-sm"
           style={{ animationDelay: "500ms" }}
         >
-          <img
-            src={heroPortrait}
-            alt="Tohoury Dadi Elie sur un chantier à Abidjan"
-            width={1024}
-            height={1280}
-            className="aspect-[4/5] w-full object-cover"
-            style={{ filter: "grayscale(35%)" }}
-          />
-        </div>
+          <div className="gold-frame">
+            <img
+              src={heroPortrait}
+              alt="Tohoury Dadi Elie sur un chantier, casque de sécurité"
+              width={1024}
+              height={1280}
+              className="aspect-[4/5] w-full object-cover"
+              style={{ filter: "grayscale(35%)" }}
+            />
+          </div>
+          <figcaption className="mt-3 text-sm text-faint">
+            Sur chantier — suivi de travaux
+          </figcaption>
+        </figure>
+
       </div>
 
       <div className="absolute bottom-6 left-0 w-full">
