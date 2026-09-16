@@ -359,12 +359,17 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
   return (
     <section id="projets" className="border-t border-line py-24">
       <div className="wrap">
-        <SectionLabel>Projets</SectionLabel>
+        <SectionLabel>Réalisations</SectionLabel>
         <h2 className="mt-6 text-4xl uppercase" style={{ fontWeight: 700 }}>
-          Réalisations
+          Projets
         </h2>
+        <p className="mt-4 max-w-3xl text-dim">
+          Une sélection de projets de conception et de suivi de chantier, du premier trait de
+          crayon jusqu'au gros œuvre. Cliquez sur une photo pour l'agrandir.
+        </p>
 
         <div className="mt-12">
+
           {projects.map((p) => (
             <article key={p.id} className="border-t border-line py-12 first:border-0 first:pt-0">
               <div className="flex flex-wrap items-center justify-between gap-4">
