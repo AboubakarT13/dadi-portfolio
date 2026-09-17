@@ -1,16 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { AutoVideo } from "@/components/AutoVideo";
 import { MediaDrop } from "@/components/MediaDrop";
 import { MediaImage } from "@/components/MediaImage";
+import type { Project, SiteContent } from "@/lib/portfolio-data";
 import {
-  DEFAULT_PROJECTS,
-  loadContent,
-  saveContent,
-  type Project,
-  type SiteContent,
-} from "@/lib/portfolio-data";
+  createProject,
+  fetchSiteContent,
+  removeProject,
+  savePresentationVideo,
+  updateProject,
+} from "@/lib/site-db";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
@@ -35,28 +36,32 @@ const btn =
 const btnGhost =
   "border border-line px-3 py-1.5 text-xs tracking-[0.06em] text-dim uppercase hover:border-gold hover:text-gold";
 
-function emptyProject(): Project {
-  return {
-    id: `p-${Date.now()}`,
-    title: "",
-    tag: "",
-    meta: "",
-    description: "",
-    status: "En cours",
-    photoCount: 0,
-    images: [],
-    videos: [],
-  };
-}
-
 function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [ready, setReady] = useState(false);
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
   const [content, setContent] = useState<SiteContent | null>(null);
+  const [videoUrl, setVideoUrl] = useState("");
   const [saved, setSaved] = useState(false);
+  const [dbError, setDbError] = useState("");
   const passRef = useRef<HTMLInputElement>(null);
+
+  const flash = () => {
+    setSaved(true);
+    window.setTimeout(() => setSaved(false), 1600);
+  };
+
+  const reload = useCallback(async () => {
+    try {
+      const next = await fetchSiteContent();
+      setContent(next);
+      setVideoUrl(next.presentationVideo ?? "");
+      setDbError("");
+    } catch {
+      setDbError("Impossible de charger les données en ligne.");
+    }
+  }, []);
 
   useEffect(() => {
     try {
@@ -69,15 +74,17 @@ function AdminPage() {
     } catch {
       /* stockage indisponible */
     }
-    setContent(loadContent());
-    setReady(true);
-  }, []);
+    void reload().finally(() => setReady(true));
+  }, [reload]);
 
-  const update = (next: SiteContent) => {
-    setContent(next);
-    saveContent(next);
-    setSaved(true);
-    window.setTimeout(() => setSaved(false), 1600);
+  const run = async (action: () => Promise<void>) => {
+    try {
+      await action();
+      await reload();
+      flash();
+    } catch {
+      setDbError("L'enregistrement en ligne a échoué. Réessayez.");
+    }
   };
 
   const tryLogin = () => {
@@ -140,12 +147,24 @@ function AdminPage() {
   }
 
   if (!ready) return null;
+  if (!content) {
+    return (
+      <div className="flex min-h-screen items-center justify-center px-6 text-sm text-faint">
+        {dbError || "Chargement…"}
+      </div>
+    );
+  }
 
-  if (!content) return null;
+  const setProject = (p: Project, patch: Partial<Project>) => {
+    setContent({
+      ...content,
+      projects: content.projects.map((x) => (x.id === p.id ? { ...x, ...patch } : x)),
+    });
+  };
 
-  const setProject = (index: number, patch: Partial<Project>) => {
-    const projects = content.projects.map((p, i) => (i === index ? { ...p, ...patch } : p));
-    update({ ...content, projects });
+  const commit = (p: Project, patch: Partial<Project>) => {
+    setProject(p, patch);
+    void run(() => updateProject(p.id, patch));
   };
 
   return (
@@ -157,6 +176,10 @@ function AdminPage() {
             <h1 className="mt-2 text-4xl uppercase" style={{ fontWeight: 700 }}>
               Gestion du portfolio
             </h1>
+            <p className="mt-2 text-xs text-faint">
+              Tout ce que vous ajoutez ici est enregistré en ligne et visible par tous les
+              visiteurs.
+            </p>
           </div>
           <div className="flex items-center gap-3">
             {saved && <span className="text-xs text-gold">Enregistré</span>}
@@ -177,28 +200,27 @@ function AdminPage() {
           </div>
         </div>
 
+        {dbError && <p className="mt-4 text-sm text-gold">{dbError}</p>}
+
         {/* Vidéo de présentation */}
         <section className="mt-12 border border-line bg-panel p-6">
           <h2 className="text-2xl uppercase" style={{ fontWeight: 700 }}>
             Vidéo de présentation
           </h2>
           <p className="mt-1 text-sm text-faint">
-            Collez le lien d'un fichier vidéo (.mp4, .webm). Elle démarre automatiquement sur le
-            site.
+            Glissez un fichier vidéo, ou collez le lien d'une vidéo (.mp4, .webm).
           </p>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row">
             <input
-              value={content.presentationVideo ?? ""}
-              onChange={(e) =>
-                setContent({ ...content, presentationVideo: e.target.value || null })
-              }
+              value={videoUrl}
+              onChange={(e) => setVideoUrl(e.target.value)}
               placeholder="https://…/presentation.mp4"
               className={input}
             />
             <button
               type="button"
               className={btn}
-              onClick={() => update({ ...content, presentationVideo: content.presentationVideo })}
+              onClick={() => void run(() => savePresentationVideo(videoUrl || null))}
             >
               Enregistrer
             </button>
@@ -208,7 +230,7 @@ function AdminPage() {
               accept="video/*"
               multiple={false}
               label="Glissez une vidéo ici ou cliquez pour choisir un fichier de l'appareil"
-              onFiles={(refs) => update({ ...content, presentationVideo: refs[0] ?? null })}
+              onFiles={(refs) => void run(() => savePresentationVideo(refs[0] ?? null))}
             />
           </div>
           {content.presentationVideo && (
@@ -225,28 +247,13 @@ function AdminPage() {
             <h2 className="text-2xl uppercase" style={{ fontWeight: 700 }}>
               Projets ({content.projects.length})
             </h2>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                className={btn}
-                onClick={() => update({ ...content, projects: [emptyProject(), ...content.projects] })}
-              >
-                + Nouveau projet
-              </button>
-              <button
-                type="button"
-                className={btnGhost}
-                onClick={() =>
-                  update({ projects: DEFAULT_PROJECTS, presentationVideo: content.presentationVideo })
-                }
-              >
-                Réinitialiser
-              </button>
-            </div>
+            <button type="button" className={btn} onClick={() => void run(createProject)}>
+              + Nouveau projet
+            </button>
           </div>
 
           <div className="mt-6 space-y-6">
-            {content.projects.map((p, i) => (
+            {content.projects.map((p) => (
               <div key={p.id} className="border border-line bg-panel p-6">
                 <div className="grid gap-4 sm:grid-cols-2">
                   <label className="block">
@@ -254,7 +261,8 @@ function AdminPage() {
                     <input
                       className={`${input} mt-1`}
                       value={p.title}
-                      onChange={(e) => setProject(i, { title: e.target.value })}
+                      onChange={(e) => setProject(p, { title: e.target.value })}
+                      onBlur={(e) => commit(p, { title: e.target.value })}
                     />
                   </label>
                   <label className="block">
@@ -262,7 +270,8 @@ function AdminPage() {
                     <input
                       className={`${input} mt-1`}
                       value={p.tag}
-                      onChange={(e) => setProject(i, { tag: e.target.value })}
+                      onChange={(e) => setProject(p, { tag: e.target.value })}
+                      onBlur={(e) => commit(p, { tag: e.target.value })}
                     />
                   </label>
                   <label className="block">
@@ -270,28 +279,19 @@ function AdminPage() {
                     <input
                       className={`${input} mt-1`}
                       value={p.meta}
-                      onChange={(e) => setProject(i, { meta: e.target.value })}
+                      onChange={(e) => setProject(p, { meta: e.target.value })}
+                      onBlur={(e) => commit(p, { meta: e.target.value })}
                     />
                   </label>
-                  <div className="grid grid-cols-2 gap-4">
-                    <label className="block">
-                      <span className="section-label">Statut</span>
-                      <input
-                        className={`${input} mt-1`}
-                        value={p.status}
-                        onChange={(e) => setProject(i, { status: e.target.value })}
-                      />
-                    </label>
-                    <label className="block">
-                      <span className="section-label">Photos</span>
-                      <input
-                        type="number"
-                        className={`${input} mt-1`}
-                        value={p.photoCount}
-                        onChange={(e) => setProject(i, { photoCount: Number(e.target.value) })}
-                      />
-                    </label>
-                  </div>
+                  <label className="block">
+                    <span className="section-label">Statut</span>
+                    <input
+                      className={`${input} mt-1`}
+                      value={p.status}
+                      onChange={(e) => setProject(p, { status: e.target.value })}
+                      onBlur={(e) => commit(p, { status: e.target.value })}
+                    />
+                  </label>
                 </div>
 
                 <label className="mt-4 block">
@@ -300,38 +300,31 @@ function AdminPage() {
                     rows={3}
                     className={`${input} mt-1`}
                     value={p.description}
-                    onChange={(e) => setProject(i, { description: e.target.value })}
+                    onChange={(e) => setProject(p, { description: e.target.value })}
+                    onBlur={(e) => commit(p, { description: e.target.value })}
                   />
                 </label>
 
                 <div className="mt-5">
-                  <span className="section-label">Photos du projet</span>
+                  <span className="section-label">Photos du projet ({p.images.length})</span>
                   <div className="mt-2">
                     <MediaDrop
                       accept="image/*"
                       label="Glissez vos photos ici ou cliquez pour les choisir sur l'appareil"
-                      onFiles={(refs) => {
-                        const images = [...p.images, ...refs];
-                        setProject(i, { images, photoCount: images.length });
-                      }}
+                      onFiles={(refs) => commit(p, { images: [...p.images, ...refs] })}
                     />
                   </div>
                   {p.images.length > 0 && (
                     <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
                       {p.images.map((img, ii) => (
                         <div key={`${p.id}-img-${ii}`} className="relative aspect-[4/3] border border-line">
-                          <MediaImage
-                            src={img}
-                            alt=""
-                            className="h-full w-full object-cover"
-                          />
+                          <MediaImage src={img} alt="" className="h-full w-full object-cover" />
                           <button
                             type="button"
                             aria-label="Retirer la photo"
-                            onClick={() => {
-                              const images = p.images.filter((_, x) => x !== ii);
-                              setProject(i, { images, photoCount: images.length });
-                            }}
+                            onClick={() =>
+                              commit(p, { images: p.images.filter((_, x) => x !== ii) })
+                            }
                             className="absolute right-1 top-1 h-6 w-6 text-xs text-gold"
                             style={{ background: "rgba(0,0,0,0.6)" }}
                           >
@@ -349,7 +342,7 @@ function AdminPage() {
                     <MediaDrop
                       accept="video/*"
                       label="Glissez vos vidéos ici ou cliquez pour les choisir sur l'appareil"
-                      onFiles={(refs) => setProject(i, { videos: [...p.videos, ...refs] })}
+                      onFiles={(refs) => commit(p, { videos: [...p.videos, ...refs] })}
                     />
                   </div>
                   {p.videos.length > 0 && (
@@ -361,7 +354,7 @@ function AdminPage() {
                             type="button"
                             aria-label="Retirer la vidéo"
                             onClick={() =>
-                              setProject(i, { videos: p.videos.filter((_, x) => x !== vi) })
+                              commit(p, { videos: p.videos.filter((_, x) => x !== vi) })
                             }
                             className="absolute right-2 top-2 h-7 w-7 text-sm text-gold"
                             style={{ background: "rgba(0,0,0,0.6)" }}
@@ -378,12 +371,7 @@ function AdminPage() {
                   <button
                     type="button"
                     className={btnGhost}
-                    onClick={() =>
-                      update({
-                        ...content,
-                        projects: content.projects.filter((_, idx) => idx !== i),
-                      })
-                    }
+                    onClick={() => void run(() => removeProject(p.id))}
                   >
                     Supprimer
                   </button>
