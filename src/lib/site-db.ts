@@ -71,14 +71,16 @@ export async function createProject(): Promise<void> {
 }
 
 export async function updateProject(id: string, patch: Partial<Project>): Promise<void> {
-  const payload: Record<string, unknown> = { updated_at: new Date().toISOString() };
-  if (patch.title !== undefined) payload.title = patch.title;
-  if (patch.tag !== undefined) payload.tag = patch.tag;
-  if (patch.meta !== undefined) payload.meta = patch.meta;
-  if (patch.description !== undefined) payload.description = patch.description;
-  if (patch.status !== undefined) payload.status = patch.status;
-  if (patch.images !== undefined) payload.images = patch.images;
-  if (patch.videos !== undefined) payload.videos = patch.videos;
+  const payload = {
+    updated_at: new Date().toISOString(),
+    ...(patch.title !== undefined ? { title: patch.title } : {}),
+    ...(patch.tag !== undefined ? { tag: patch.tag } : {}),
+    ...(patch.meta !== undefined ? { meta: patch.meta } : {}),
+    ...(patch.description !== undefined ? { description: patch.description } : {}),
+    ...(patch.status !== undefined ? { status: patch.status } : {}),
+    ...(patch.images !== undefined ? { images: patch.images } : {}),
+    ...(patch.videos !== undefined ? { videos: patch.videos } : {}),
+  };
 
   const { error } = await supabase.from("site_projects").update(payload).eq("id", id);
   if (error) throw error;
