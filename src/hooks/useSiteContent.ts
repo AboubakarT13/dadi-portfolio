@@ -1,19 +1,23 @@
-import { useEffect, useState } from "react";
-import { defaultContent, loadContent, type SiteContent } from "@/lib/portfolio-data";
+import { useCallback, useEffect, useState } from "react";
+import { defaultContent, type SiteContent } from "@/lib/portfolio-data";
+import { CONTENT_EVENT, fetchSiteContent } from "@/lib/site-db";
 
 export function useSiteContent(): SiteContent {
   const [content, setContent] = useState<SiteContent>(() => defaultContent());
 
-  useEffect(() => {
-    setContent(loadContent());
-    const sync = () => setContent(loadContent());
-    window.addEventListener("tde-content-updated", sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener("tde-content-updated", sync);
-      window.removeEventListener("storage", sync);
-    };
+  const sync = useCallback(() => {
+    fetchSiteContent()
+      .then(setContent)
+      .catch(() => {
+        /* garde le contenu déjà affiché */
+      });
   }, []);
+
+  useEffect(() => {
+    sync();
+    window.addEventListener(CONTENT_EVENT, sync);
+    return () => window.removeEventListener(CONTENT_EVENT, sync);
+  }, [sync]);
 
   return content;
 }
