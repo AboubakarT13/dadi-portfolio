@@ -538,7 +538,7 @@ function Footer() {
     <footer className="border-t border-line py-8">
       <div className="wrap flex flex-wrap items-center justify-between gap-3 text-sm text-faint">
         <p>
-          © 2025 Tohoury{" "}
+          © 2026 Tohoury{" "}
           <Link
             to="/admin"
             aria-label="Espace"
