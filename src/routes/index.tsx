@@ -26,6 +26,8 @@ export const Route = createFileRoute("/")({
         content:
           "Conception 2D/3D, plans techniques, métré, devis et suivi de chantier à Abidjan, Côte d'Ivoire.",
       },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Portfolio,
@@ -388,26 +390,32 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
               {p.images.length > 0 && (
                 <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
                   {p.images.map((img, i) => (
-                    <button
-                      key={`${p.id}-${i}`}
-                      type="button"
-                      onClick={() => onOpen({ images: p.images, index: i })}
-                      className="group aspect-[4/3] overflow-hidden border border-line"
-                    >
-                      <MediaImage
-                        src={img}
-                        alt={`${p.title} — visuel ${i + 1}`}
-                        loading="lazy"
-                        className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
-                        style={{ filter: "grayscale(10%)" }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.filter = "grayscale(0%)";
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.filter = "grayscale(10%)";
-                        }}
-                      />
-                    </button>
+                    <figure key={`${p.id}-${i}`}>
+                      <button
+                        type="button"
+                        onClick={() => onOpen({ images: p.images, index: i })}
+                        className="group aspect-[4/3] w-full overflow-hidden border border-line"
+                      >
+                        <MediaImage
+                          src={img}
+                          alt={p.imageCaptions?.[i] || `${p.title} — visuel ${i + 1}`}
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
+                          style={{ filter: "grayscale(10%)" }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.filter = "grayscale(0%)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.filter = "grayscale(10%)";
+                          }}
+                        />
+                      </button>
+                      {p.imageCaptions?.[i] && (
+                        <figcaption className="mt-2 text-sm leading-relaxed text-faint">
+                          {p.imageCaptions[i]}
+                        </figcaption>
+                      )}
+                    </figure>
                   ))}
                 </div>
               )}
@@ -415,11 +423,14 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
               {p.videos.length > 0 && (
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
                   {p.videos.map((v, i) => (
-                    <AutoVideo
-                      key={`${p.id}-v-${i}`}
-                      src={v}
-                      className="gold-frame aspect-video w-full"
-                    />
+                    <figure key={`${p.id}-v-${i}`}>
+                      <AutoVideo src={v} className="gold-frame aspect-video w-full" />
+                      {p.videoCaptions?.[i] && (
+                        <figcaption className="mt-2 text-sm leading-relaxed text-faint">
+                          {p.videoCaptions[i]}
+                        </figcaption>
+                      )}
+                    </figure>
                   ))}
                 </div>
               )}

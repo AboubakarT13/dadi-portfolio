@@ -67,7 +67,7 @@ export function AutoVideo({
     <div className={`relative overflow-hidden bg-panel-2 ${className}`}>
       <video
         ref={ref}
-        src={resolvedSrc}
+        src={resolvedSrc || undefined}
         poster={resolvedPoster || undefined}
         autoPlay
         muted

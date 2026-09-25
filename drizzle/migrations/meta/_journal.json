@@ -15,6 +15,13 @@
       "when": 1789635016187,
       "tag": "0001_media_bucket_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790327061189,
+      "tag": "0002_add_project_media_captions",
+      "breakpoints": true
     }
   ]
 }

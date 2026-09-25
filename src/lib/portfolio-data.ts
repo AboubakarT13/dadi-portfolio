@@ -16,7 +16,9 @@ export interface Project {
   status: string;
   photoCount: number;
   images: string[];
+  imageCaptions: string[];
   videos: string[];
+  videoCaptions: string[];
 }
 
 export interface SiteContent {
@@ -109,7 +111,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "Livré",
     photoCount: PROJET_1.length,
     images: PROJET_1,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
   {
     id: "villa-duplex-anoh",
@@ -121,7 +125,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "Livré",
     photoCount: PROJET_2.length,
     images: PROJET_2,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
   {
     id: "villa-duplex-r4",
@@ -133,7 +139,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "En cours",
     photoCount: PROJET_3.length,
     images: PROJET_3,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
   {
     id: "immeuble-r3-commerces",
@@ -145,7 +153,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "En cours",
     photoCount: PROJET_4.length,
     images: PROJET_4,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
   {
     id: "temple-el-shaddai",
@@ -157,7 +167,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "Livré",
     photoCount: PROJET_5.length,
     images: PROJET_5,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
   {
     id: "villa-duplex-magasins",
@@ -169,7 +181,9 @@ export const DEFAULT_PROJECTS: Project[] = [
     status: "Livré",
     photoCount: PROJET_6.length,
     images: PROJET_6,
+    imageCaptions: [],
     videos: [],
+    videoCaptions: [],
   },
 ];
 
@@ -186,7 +200,13 @@ export function loadContent(): SiteContent {
     if (!raw) return defaultContent();
     const parsed = JSON.parse(raw) as Partial<SiteContent>;
     return {
-      projects: Array.isArray(parsed.projects) ? (parsed.projects as Project[]) : DEFAULT_PROJECTS,
+      projects: Array.isArray(parsed.projects)
+        ? (parsed.projects as Project[]).map((project) => ({
+            ...project,
+            imageCaptions: project.images.map((_, index) => project.imageCaptions?.[index] ?? ""),
+            videoCaptions: project.videos.map((_, index) => project.videoCaptions?.[index] ?? ""),
+          }))
+        : DEFAULT_PROJECTS,
       presentationVideo: parsed.presentationVideo ?? null,
     };
   } catch {
