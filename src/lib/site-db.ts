@@ -15,7 +15,9 @@ type Row = {
   description: string;
   status: string;
   images: string[];
+  image_captions: string[];
   videos: string[];
+  video_captions: string[];
   position: number;
 };
 
@@ -29,7 +31,9 @@ function toProject(row: Row): Project {
     status: row.status,
     photoCount: row.images?.length ?? 0,
     images: row.images ?? [],
+    imageCaptions: row.image_captions ?? [],
     videos: row.videos ?? [],
+    videoCaptions: row.video_captions ?? [],
   };
 }
 
@@ -63,7 +67,9 @@ export async function createProject(): Promise<void> {
     description: "",
     status: "En cours",
     images: [],
+    image_captions: [],
     videos: [],
+    video_captions: [],
     position: (last?.position ?? -1) + 1,
   });
   if (error) throw error;
@@ -79,7 +85,9 @@ export async function updateProject(id: string, patch: Partial<Project>): Promis
     ...(patch.description !== undefined ? { description: patch.description } : {}),
     ...(patch.status !== undefined ? { status: patch.status } : {}),
     ...(patch.images !== undefined ? { images: patch.images } : {}),
+    ...(patch.imageCaptions !== undefined ? { image_captions: patch.imageCaptions } : {}),
     ...(patch.videos !== undefined ? { videos: patch.videos } : {}),
+    ...(patch.videoCaptions !== undefined ? { video_captions: patch.videoCaptions } : {}),
   };
 
   const { error } = await supabase.from("site_projects").update(payload).eq("id", id);
