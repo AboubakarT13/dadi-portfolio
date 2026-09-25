@@ -200,7 +200,13 @@ export function loadContent(): SiteContent {
     if (!raw) return defaultContent();
     const parsed = JSON.parse(raw) as Partial<SiteContent>;
     return {
-      projects: Array.isArray(parsed.projects) ? (parsed.projects as Project[]) : DEFAULT_PROJECTS,
+      projects: Array.isArray(parsed.projects)
+        ? (parsed.projects as Project[]).map((project) => ({
+            ...project,
+            imageCaptions: project.imageCaptions ?? [],
+            videoCaptions: project.videoCaptions ?? [],
+          }))
+        : DEFAULT_PROJECTS,
       presentationVideo: parsed.presentationVideo ?? null,
     };
   } catch {
