@@ -22,6 +22,8 @@ type Row = {
 };
 
 function toProject(row: Row): Project {
+  const images = row.images ?? [];
+  const videos = row.videos ?? [];
   return {
     id: row.id,
     title: row.title,
@@ -29,11 +31,11 @@ function toProject(row: Row): Project {
     meta: row.meta,
     description: row.description,
     status: row.status,
-    photoCount: row.images?.length ?? 0,
-    images: row.images ?? [],
-    imageCaptions: row.image_captions ?? [],
-    videos: row.videos ?? [],
-    videoCaptions: row.video_captions ?? [],
+    photoCount: images.length,
+    images,
+    imageCaptions: images.map((_, index) => row.image_captions?.[index] ?? ""),
+    videos,
+    videoCaptions: videos.map((_, index) => row.video_captions?.[index] ?? ""),
   };
 }
 

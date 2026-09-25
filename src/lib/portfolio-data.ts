@@ -203,8 +203,8 @@ export function loadContent(): SiteContent {
       projects: Array.isArray(parsed.projects)
         ? (parsed.projects as Project[]).map((project) => ({
             ...project,
-            imageCaptions: project.imageCaptions ?? [],
-            videoCaptions: project.videoCaptions ?? [],
+            imageCaptions: project.images.map((_, index) => project.imageCaptions?.[index] ?? ""),
+            videoCaptions: project.videos.map((_, index) => project.videoCaptions?.[index] ?? ""),
           }))
         : DEFAULT_PROJECTS,
       presentationVideo: parsed.presentationVideo ?? null,

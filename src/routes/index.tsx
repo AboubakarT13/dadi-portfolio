@@ -26,6 +26,8 @@ export const Route = createFileRoute("/")({
         content:
           "Conception 2D/3D, plans techniques, métré, devis et suivi de chantier à Abidjan, Côte d'Ivoire.",
       },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Portfolio,

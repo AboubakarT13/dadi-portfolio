@@ -20,6 +20,8 @@ export const Route = createFileRoute("/admin")({
       { name: "description", content: "Espace privé de gestion du portfolio." },
       { property: "og:title", content: "Espace administrateur" },
       { property: "og:description", content: "Espace privé de gestion du portfolio." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),
