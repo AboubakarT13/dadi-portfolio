@@ -19,6 +19,7 @@ export type Database = {
           created_at: string
           description: string
           id: string
+          image_captions: string[]
           images: string[]
           meta: string
           position: number
@@ -26,12 +27,14 @@ export type Database = {
           tag: string
           title: string
           updated_at: string
+          video_captions: string[]
           videos: string[]
         }
         Insert: {
           created_at?: string
           description?: string
           id?: string
+          image_captions?: string[]
           images?: string[]
           meta?: string
           position?: number
@@ -39,12 +42,14 @@ export type Database = {
           tag?: string
           title?: string
           updated_at?: string
+          video_captions?: string[]
           videos?: string[]
         }
         Update: {
           created_at?: string
           description?: string
           id?: string
+          image_captions?: string[]
           images?: string[]
           meta?: string
           position?: number
@@ -52,6 +57,7 @@ export type Database = {
           tag?: string
           title?: string
           updated_at?: string
+          video_captions?: string[]
           videos?: string[]
         }
         Relationships: []
