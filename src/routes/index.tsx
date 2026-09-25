@@ -398,7 +398,7 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
                       >
                         <MediaImage
                           src={img}
-                          alt={p.imageCaptions[i] || `${p.title} — visuel ${i + 1}`}
+                          alt={p.imageCaptions?.[i] || `${p.title} — visuel ${i + 1}`}
                           loading="lazy"
                           className="h-full w-full object-cover transition-all duration-500 group-hover:scale-105"
                           style={{ filter: "grayscale(10%)" }}
@@ -410,7 +410,7 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
                           }}
                         />
                       </button>
-                      {p.imageCaptions[i] && (
+                      {p.imageCaptions?.[i] && (
                         <figcaption className="mt-2 text-sm leading-relaxed text-faint">
                           {p.imageCaptions[i]}
                         </figcaption>
@@ -425,7 +425,7 @@ function Projets({ onOpen }: { onOpen: (state: LightboxState) => void }) {
                   {p.videos.map((v, i) => (
                     <figure key={`${p.id}-v-${i}`}>
                       <AutoVideo src={v} className="gold-frame aspect-video w-full" />
-                      {p.videoCaptions[i] && (
+                      {p.videoCaptions?.[i] && (
                         <figcaption className="mt-2 text-sm leading-relaxed text-faint">
                           {p.videoCaptions[i]}
                         </figcaption>

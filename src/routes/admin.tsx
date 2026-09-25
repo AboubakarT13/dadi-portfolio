@@ -316,7 +316,7 @@ function AdminPage() {
                       onFiles={(refs) =>
                         commit(p, {
                           images: [...p.images, ...refs],
-                          imageCaptions: [...p.imageCaptions, ...refs.map(() => "")],
+                          imageCaptions: [...(p.imageCaptions ?? []), ...refs.map(() => "")],
                         })
                       }
                     />
@@ -333,7 +333,7 @@ function AdminPage() {
                               onClick={() =>
                                 commit(p, {
                                   images: p.images.filter((_, x) => x !== ii),
-                                  imageCaptions: p.imageCaptions.filter((_, x) => x !== ii),
+                                  imageCaptions: (p.imageCaptions ?? []).filter((_, x) => x !== ii),
                                 })
                               }
                               className="absolute right-1 top-1 h-6 w-6 text-xs text-gold"
@@ -344,17 +344,17 @@ function AdminPage() {
                           </div>
                           <textarea
                             rows={2}
-                            value={p.imageCaptions[ii] ?? ""}
+                            value={p.imageCaptions?.[ii] ?? ""}
                             placeholder="Titre ou description de la photo"
                             aria-label={`Titre ou description de la photo ${ii + 1}`}
                             className={`${input} mt-2 resize-y`}
                             onChange={(e) => {
-                              const captions = [...p.imageCaptions];
+                              const captions = [...(p.imageCaptions ?? [])];
                               captions[ii] = e.target.value;
                               setProject(p, { imageCaptions: captions });
                             }}
                             onBlur={(e) => {
-                              const captions = [...p.imageCaptions];
+                              const captions = [...(p.imageCaptions ?? [])];
                               captions[ii] = e.target.value;
                               commit(p, { imageCaptions: captions });
                             }}
@@ -374,7 +374,7 @@ function AdminPage() {
                       onFiles={(refs) =>
                         commit(p, {
                           videos: [...p.videos, ...refs],
-                          videoCaptions: [...p.videoCaptions, ...refs.map(() => "")],
+                          videoCaptions: [...(p.videoCaptions ?? []), ...refs.map(() => "")],
                         })
                       }
                     />
@@ -390,7 +390,7 @@ function AdminPage() {
                             onClick={() =>
                               commit(p, {
                                 videos: p.videos.filter((_, x) => x !== vi),
-                                videoCaptions: p.videoCaptions.filter((_, x) => x !== vi),
+                                videoCaptions: (p.videoCaptions ?? []).filter((_, x) => x !== vi),
                               })
                             }
                             className="absolute right-2 top-2 h-7 w-7 text-sm text-gold"
@@ -400,17 +400,17 @@ function AdminPage() {
                           </button>
                           <textarea
                             rows={2}
-                            value={p.videoCaptions[vi] ?? ""}
+                            value={p.videoCaptions?.[vi] ?? ""}
                             placeholder="Titre ou description de la vidéo"
                             aria-label={`Titre ou description de la vidéo ${vi + 1}`}
                             className={`${input} mt-2 resize-y`}
                             onChange={(e) => {
-                              const captions = [...p.videoCaptions];
+                              const captions = [...(p.videoCaptions ?? [])];
                               captions[vi] = e.target.value;
                               setProject(p, { videoCaptions: captions });
                             }}
                             onBlur={(e) => {
-                              const captions = [...p.videoCaptions];
+                              const captions = [...(p.videoCaptions ?? [])];
                               captions[vi] = e.target.value;
                               commit(p, { videoCaptions: captions });
                             }}
